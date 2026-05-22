@@ -1,0 +1,24 @@
+name: Deploy to Coolify
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Coolify Deployment
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+          -X POST "https://coolify.a2cons.tech/api/v1/deploy?uuid=bnon2oaz9nhqd01ze6bvhrqe" \
+          -H "Authorization: Bearer ${{ secrets.COOLIFY_APP_UUID }}")
+
+          echo "Response Code: $response"
+
+          if [ "$response" -ne 200 ]; then
+            echo "Deployment failed"
+            exit 1
+          fi
