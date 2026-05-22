@@ -119,8 +119,8 @@ export default function Calendar() {
   }
 
   return (
-    <div className="fade-up" style={{ padding: '1.5rem', maxWidth: 1000, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+    <div className="fade-up calendar-root">
+      <div className="calendar-header">
         <div>
           <h1 style={{ fontSize: '22px', fontWeight: 700 }}>Events & Transactions</h1>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: 2 }}>Financial planning and reminders</p>
@@ -146,7 +146,10 @@ export default function Calendar() {
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-            <div key={d} style={{ background: 'var(--bg-hover)', padding: '10px', textAlign: 'center', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>{d}</div>
+            <div key={d} className="calendar-weekday-header">
+              <span className="weekday-full">{d}</span>
+              <span className="weekday-short">{d.slice(0, 2)}</span>
+            </div>
           ))}
           
           {daysGrid.map((day, idx) => {
@@ -159,17 +162,11 @@ export default function Calendar() {
               <div 
                 key={idx} 
                 onClick={() => { if (day) { setSelDay(day); setShowForm(true) } }}
+                className="calendar-cell"
                 style={{ 
-                  aspectRatio: '1/1', 
                   background: day ? 'var(--bg-card)' : 'transparent',
-                  padding: '8px',
-                  display: 'flex', flexDirection: 'column',
-                  gap: 4,
                   opacity: day ? 1 : 0,
                   cursor: day ? 'pointer' : 'default',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  minHeight: '85px'
                 }}
               >
                 {day && (
@@ -183,7 +180,7 @@ export default function Calendar() {
                       ))}
                     </div>
                     {dayEvents.length > 0 && (
-                      <div style={{ marginTop: 'auto' }}>
+                      <div className="calendar-event-pills">
                         {dayEvents.slice(0, 2).map(e => (
                           <div key={e.id} style={{ fontSize: '9px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--text-secondary)', background: 'rgba(212,175,55,0.1)', padding: '2px 4px', borderRadius: 4, marginBottom: 2 }}>
                             {e.title}

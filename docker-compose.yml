@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:15-alpine
+    container_name: moneta_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: moneta_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   backend:
     build:
       context: ./backend
@@ -8,17 +21,23 @@ services:
     ports:
       - "8008:8008"
     volumes:
-      - ./backend/data:/app/data
       - ./backend/uploads:/app/uploads
     restart: always
-    # Environment variables (hardcoded for now as requested)
+    depends_on:
+      - db
     environment:
       - PORT=8008
       - HOST=0.0.0.0
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@db:5432/moneta_local}
+      - SECRET_KEY=${SECRET_KEY:-moneta-bank-super-secret-key-123}
+      - ALGORITHM=${ALGORITHM:-HS256}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES:-10080}
 
   frontend:
     build:
       context: ./frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL:-/api}
     container_name: moneta_frontend
     ports:
       - "80:80"
@@ -27,4 +46,4 @@ services:
       - backend
 
 volumes:
-  moneta_data:
+  pgdata:

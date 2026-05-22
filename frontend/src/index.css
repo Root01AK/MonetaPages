@@ -160,3 +160,125 @@ button:hover { filter: brightness(1.1); }
   .hide-mobile { display: none !important; }
   .stack-mobile { flex-direction: column !important; }
 }
+
+/* Responsive Dashboard Layouts */
+.db-grid-2col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+
+.db-grid-asymmetric-1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+}
+
+.db-grid-asymmetric-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+}
+
+.expense-dist-flex {
+  display: flex;
+  align-items: center;
+  height: 260px;
+}
+
+.expense-dist-chart {
+  width: 65% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 900px) {
+  .db-grid-2col,
+  .db-grid-asymmetric-1,
+  .db-grid-asymmetric-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .expense-dist-flex {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 20px;
+  }
+  .expense-dist-chart {
+    width: 100% !important;
+    height: 200px !important;
+  }
+}
+
+/* Responsive Calendar Page */
+.calendar-root {
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 16px;
+}
+
+.calendar-cell {
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+  min-height: 85px;
+}
+
+.calendar-weekday-header {
+  background: var(--bg-hover);
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.weekday-full {
+  display: inline;
+}
+
+.weekday-short {
+  display: none;
+}
+
+.calendar-event-pills {
+  display: block;
+  margin-top: auto;
+}
+
+@media (max-width: 640px) {
+  .calendar-root {
+    padding: 0.75rem;
+  }
+  .calendar-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .calendar-cell {
+    min-height: 50px !important;
+    padding: 4px !important;
+  }
+  .weekday-full {
+    display: none;
+  }
+  .weekday-short {
+    display: inline;
+  }
+  .calendar-event-pills {
+    display: none !important;
+  }
+}

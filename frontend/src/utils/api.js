@@ -49,6 +49,9 @@ export const registerUser = (data) =>
 export const fetchMe = () =>
   api.get('auth/me').then(r => r.data)
 
+export const updateProfile = (data) =>
+  api.put('auth/profile', data).then(r => r.data)
+
 // ── Transactions ─────────────────────────────────────────────────
 export const fetchTransactions = (params = {}) =>
   api.get('transactions/', { params }).then(r => r.data)

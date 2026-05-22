@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from sqlalchemy import func
+from sqlalchemy import func, extract
 
 from database import get_db
 import models, schemas, auth
@@ -23,13 +23,19 @@ def get_budget_summary(
     ).all()
     
     # Get spending for the month
+    try:
+        year_num, month_num = map(int, month.split("-"))
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid month format. Expected YYYY-MM")
+
     spent_query = db.query(
         models.Transaction.category,
         func.sum(models.Transaction.amount).label("total")
     ).filter(
         models.Transaction.user_id == current_user.id,
         models.Transaction.type == models.TransactionType.expense,
-        func.strftime("%Y-%m", models.Transaction.date) == month
+        extract("year", models.Transaction.date) == year_num,
+        extract("month", models.Transaction.date) == month_num
     ).group_by(models.Transaction.category).all()
     
     spent_map = {cat: amt for cat, amt in spent_query}

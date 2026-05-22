@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, BarChart2, Settings, Users, Calendar, CheckSquare, Clock } from 'lucide-react'
+import { LayoutDashboard, BookOpen, BarChart2, Settings, Users, Calendar, CheckSquare, Clock, User } from 'lucide-react'
 
 const NAV = [
   { to: '/',        icon: LayoutDashboard, label: 'Dashboard' },
@@ -10,6 +10,7 @@ const NAV = [
   { to: '/tasks',   icon: CheckSquare,     label: 'Tasks' },
   { to: '/reports', icon: BarChart2,       label: 'Reports' },
   { to: '/settings',icon: Settings,        label: 'Settings' },
+  { to: '/profile', icon: User,            label: 'Profile' },
 ]
 
 export default function Sidebar({ balance, balanceColor }) {

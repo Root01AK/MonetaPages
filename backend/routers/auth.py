@@ -44,3 +44,23 @@ def login(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = 
 @router.get("/me", response_model=schemas.UserOut)
 def get_me(current_user: models.User = Depends(auth.get_current_user)):
     return current_user
+
+@router.put("/profile", response_model=schemas.UserOut)
+def update_profile(
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user)
+):
+    if user_update.full_name is not None:
+        current_user.full_name = user_update.full_name
+    if user_update.email is not None:
+        # Check if email is already taken by another user
+        existing_user = db.query(models.User).filter(models.User.email == user_update.email).first()
+        if existing_user and existing_user.id != current_user.id:
+            raise HTTPException(status_code=400, detail="Email already taken")
+        current_user.email = user_update.email
+    
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    return current_user

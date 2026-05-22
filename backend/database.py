@@ -3,6 +3,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
 # Priority: Environment variable, then SQLite fallback
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./data/moneta.db")
 

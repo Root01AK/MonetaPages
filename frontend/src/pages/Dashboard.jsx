@@ -144,7 +144,7 @@ export default function Dashboard() {
       </div>
 
       {/* Primary Analytics Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24, marginBottom: '2.5rem' }}>
+      <div className="db-grid-2col" style={{ marginBottom: '2.5rem' }}>
         {/* Trend Chart */}
         <Card glass>
           <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -209,14 +209,14 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 300px', gap: 24, marginBottom: '2.5rem' }}>
+      <div className="db-grid-asymmetric-1" style={{ marginBottom: '2.5rem' }}>
         {/* Expense Distribution */}
         <Card glass>
           <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
             <PieIcon size={18} color="var(--accent)" /> Expense Distribution
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', height: 260 }}>
-            <ResponsiveContainer width="65%" height="100%">
+          <div className="expense-dist-flex">
+            <ResponsiveContainer className="expense-dist-chart">
               <PieChart>
                 <Pie
                   data={pieData}
@@ -252,7 +252,7 @@ export default function Dashboard() {
       </div>
 
       {/* Bottom Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 320px', gap: 24 }}>
+      <div className="db-grid-asymmetric-2">
         {/* Recent Transactions */}
         <Card glass noPadding>
           <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,0 +1,30 @@
+# Virtual environment
+fin/
+venv/
+.venv/
+env/
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Databases and local logs
+*.db
+*.log
+backend/finledger.db
+backend/moneta.db
+backend/test_moneta.db
+backend/moneta_api.log
+
+# Node.js
+node_modules/
+dist/
+.env
+frontend/.env
+backend/.env
+
+# OS specific files
+.DS_Store
