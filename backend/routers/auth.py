@@ -6,10 +6,19 @@ from datetime import timedelta
 from database import get_db
 import models, schemas, auth
 
+import os
+
 router = APIRouter()
+
+ALLOW_REGISTRATION = os.getenv("ALLOW_REGISTRATION", "true").lower() in ("true", "1", "yes")
 
 @router.post("/register", response_model=schemas.UserOut)
 def register(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
+    if not ALLOW_REGISTRATION:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Registration is disabled on this platform."
+        )
     db_user = db.query(models.User).filter(models.User.email == user_in.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
