@@ -8,8 +8,7 @@ RUN npm install
 
 COPY . .
 
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_URL=https://api.getmoneta.tech/api/
 
 RUN npm run build
 
