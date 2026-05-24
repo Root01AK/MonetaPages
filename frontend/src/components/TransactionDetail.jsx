@@ -50,16 +50,25 @@ export default function TransactionDetail({ tx, open, onClose, onEdit, onDeleted
 
         {/* Details Grid */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: '1.25rem' }}>
-          {[
-            { label: 'Date', value: fmtDate(tx.date) },
-            { label: 'Running Balance', value: `₹${fmtCurrency(tx.running_balance)}` },
-            { label: 'Notes', value: tx.notes || '—' },
-          ].map(({ label, value }) => (
-            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
-              <span style={{ fontSize: '13px', color: 'var(--text-muted)', minWidth: 120 }}>{label}</span>
-              <span style={{ fontSize: '13px', fontWeight: 500, textAlign: 'right', color: label === 'Running Balance' ? 'var(--text-primary)' : undefined }}>{value}</span>
-            </div>
-          ))}
+          {(() => {
+            const detailsList = [
+              { label: 'Date', value: fmtDate(tx.date) },
+              { label: 'Running Balance', value: `₹${fmtCurrency(tx.running_balance)}` },
+            ];
+            if (tx.category === 'client' && tx.client) {
+              detailsList.push({
+                label: 'Client',
+                value: tx.client.company ? `${tx.client.name} (${tx.client.company})` : tx.client.name
+              });
+            }
+            detailsList.push({ label: 'Notes', value: tx.notes || '—' });
+            return detailsList.map(({ label, value }) => (
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', minWidth: 120 }}>{label}</span>
+                <span style={{ fontSize: '13px', fontWeight: 500, textAlign: 'right', color: label === 'Running Balance' ? 'var(--text-primary)' : undefined }}>{value}</span>
+              </div>
+            ));
+          })()}
         </div>
 
         {/* Screenshot */}

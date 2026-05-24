@@ -176,7 +176,11 @@ export default function TransactionForm({ open, onClose, onSuccess, editData }) 
               onChange={e => set('client_id', e.target.value)}
             >
               <option value="">-- Choose Client --</option>
-              {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {clients.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.company ? `${c.name} (${c.company})` : c.name}
+                </option>
+              ))}
             </Select>
           </div>
         )}

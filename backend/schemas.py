@@ -48,6 +48,28 @@ class TransactionCategory(str, Enum):
     personal = "personal"
 
 
+# ── Client Schemas ───────────────────────────────────────────────
+class ClientBase(BaseModel):
+    name: str = Field(..., min_length=1, max_length=255)
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    company: Optional[str] = None
+    notes: Optional[str] = None
+
+class ClientCreate(ClientBase):
+    pass
+
+class ClientUpdate(ClientBase):
+    pass
+
+class ClientOut(ClientBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
 # ── Transaction Schemas ──────────────────────────────────────────
 class TransactionBase(BaseModel):
     date: date
@@ -75,6 +97,7 @@ class TransactionOut(TransactionBase):
     id: int
     screenshot_path: Optional[str] = None
     screenshot_name: Optional[str] = None
+    client: Optional[ClientOut] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -134,26 +157,7 @@ class OverallSummary(BaseModel):
     closing_balance: float
     net_profit_loss: float
     total_transactions: int
-# ── Client Schemas ───────────────────────────────────────────────
-class ClientBase(BaseModel):
-    name: str = Field(..., min_length=1, max_length=255)
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    company: Optional[str] = None
-    notes: Optional[str] = None
 
-class ClientCreate(ClientBase):
-    pass
-
-class ClientUpdate(ClientBase):
-    pass
-
-class ClientOut(ClientBase):
-    id: int
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
 
 
 # ── Event Schemas ────────────────────────────────────────────────
