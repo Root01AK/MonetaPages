@@ -50,7 +50,7 @@ services:
       - "traefik.http.routers.moneta-frontend.rule=Host(`monetabank.monakin.in`)"
       - "traefik.http.routers.moneta-frontend.entrypoints=websecure"
       - "traefik.http.routers.moneta-frontend.tls=true"
-      - "traefik.http.middlewares.moneta-basicauth.basicauth.users=admin:$$2b$$05$$gL5R8jSj6H/06G.YyE/iQ.Gt.KRw7BZIJaGw1XmU7Jar66hkYFf7S"
+      - "traefik.http.middlewares.moneta-basicauth.basicauth.users=admin:{SHA}A1REEDjoppDFeu+I658SMDVQirw="
       - "traefik.http.routers.moneta-frontend.middlewares=moneta-basicauth"
 
 volumes:
