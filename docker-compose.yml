@@ -38,7 +38,7 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=${VITE_API_URL:-/api}
+        - VITE_API_URL=${VITE_API_URL:-https://api.getmoneta.tech/api/}
     container_name: moneta_frontend
     ports:
       - "3000:80"
