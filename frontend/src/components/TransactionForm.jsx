@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { Upload, X } from 'lucide-react'
 import { Button, Input, Select, ToggleGroup, Modal } from './UI'
-import api, { createTransaction, createTransactionWithScreenshot, updateTransaction, updateScreenshot } from '../utils/api'
+import api, { createTransaction, createTransactionWithScreenshot, updateTransaction, updateScreenshot, fetchClients } from '../utils/api'
 import { today } from '../utils/format'
 
 const EMPTY = {
@@ -27,8 +27,8 @@ export default function TransactionForm({ open, onClose, onSuccess, editData }) 
     // Fetch clients for dropdown
     const getClients = async () => {
       try {
-        const res = await api.get('/clients')
-        setClients(res.data)
+        const data = await fetchClients()
+        setClients(data)
       } catch (err) { console.error('Failed to fetch clients', err) }
     }
     if (open) getClients()
