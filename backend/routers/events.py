@@ -16,7 +16,14 @@ def get_events(
 ):
     query = db.query(models.Event).filter(models.Event.user_id == current_user.id)
     if month:
-        query = query.filter(models.Event.date.cast(models.String).like(f"{month}%"))
+        try:
+            from datetime import date as dt_date
+            import calendar
+            y, m = map(int, month.split("-"))
+            _, last_day = calendar.monthrange(y, m)
+            query = query.filter(models.Event.date >= dt_date(y, m, 1), models.Event.date <= dt_date(y, m, last_day))
+        except Exception:
+            pass
     return query.all()
 
 @router.post("/", response_model=schemas.EventOut, status_code=status.HTTP_201_CREATED)

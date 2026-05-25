@@ -52,7 +52,14 @@ def get_transactions(
     query = db.query(models.Transaction).filter(models.Transaction.user_id == current_user.id).order_by(asc(models.Transaction.date), asc(models.Transaction.id))
 
     if month:
-        query = query.filter(models.Transaction.date.like(f"{month}%"))
+        try:
+            from datetime import date as dt_date
+            import calendar
+            y, m = map(int, month.split("-"))
+            _, last_day = calendar.monthrange(y, m)
+            query = query.filter(models.Transaction.date >= dt_date(y, m, 1), models.Transaction.date <= dt_date(y, m, last_day))
+        except Exception:
+            pass
     if day:
         query = query.filter(models.Transaction.date == day)
     if type:

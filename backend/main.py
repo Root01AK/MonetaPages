@@ -54,12 +54,11 @@ app = FastAPI(
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled error during {request.method} {request.url.path}: {exc}", exc_info=True)
-    import traceback
-    tb = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    # Include error detail in response for faster production debugging
     return JSONResponse(
         status_code=500,
         content={
-            "detail": f"Error: {exc}\nTrace: {tb}",
+            "detail": str(exc) if os.getenv("DEBUG") else "An internal server error occurred. Please check logs.",
             "status": "error"
         }
     )
